@@ -2,7 +2,7 @@ hydra:
   run:
     dir: ${cache_path}/${task}/${model.path}/${dataset}/${now:%Y-%m-%d}/${now:%H-%M-%S}
 
-verbose: false 
+verbose: False 
 
 defaults:
   - model: bloomz-560m
@@ -14,7 +14,7 @@ estimators:
   # - name: MaximumSequenceProbability
   # - name: Perplexity
   # - name: MeanTokenEntropy
-  - name: SemanticEntropy
+  # - name: SemanticEntropy
   - name: PTrue
   - name: MaximumSequenceProbability
 
@@ -41,7 +41,7 @@ generation_params:
   generate_until:
     - "\n"
 subsample_eval_dataset: -1
-batch_size: 8
+batch_size: 1
 
 generation_metrics:
   - name: "RougeMetric"
@@ -58,6 +58,6 @@ seed:
 
 # Add device_map to model configuration
 model:
-  path: "bigscience/bloomz-560m"
+  path: "meta-llama/Llama-2-7b-hf"
   device_map: "cuda:1"  # Automatically use available CUDA device, or you can specify 'cuda:0' or 'cuda:1' for specific devices.
 
