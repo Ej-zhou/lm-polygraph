@@ -37,6 +37,15 @@ hydra_config = Path(os.environ.get("HYDRA_CONFIG", ""))
     config_name=str(hydra_config.name),
 )
 def main(args):
+
+
+    if(args.verbose == True):
+        processors=[
+            Logger(),
+        ]
+    else:
+        processors=[]
+
     save_path = os.getcwd()
     log.info(f"Main directory: {save_path}")
     os.chdir(hydra.utils.get_original_cwd())
@@ -105,9 +114,7 @@ def main(args):
             available_stat_calculators=available_stat_calculators,
             generation_metrics=generation_metrics,
             ue_metrics=ue_metrics,
-            processors=[
-                Logger(),
-            ],
+            processors=processors,
             ignore_exceptions=args.ignore_exceptions,
             max_new_tokens=args.max_new_tokens
         )
