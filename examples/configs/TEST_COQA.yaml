@@ -14,7 +14,7 @@ estimators:
   # - name: MaximumSequenceProbability
   # - name: Perplexity
   # - name: MeanTokenEntropy
-  # - name: SemanticEntropy
+  - name: SemanticEntropy
   - name: PTrue
   - name: MaximumSequenceProbability
 

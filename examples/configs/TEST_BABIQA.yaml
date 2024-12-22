@@ -1,0 +1,61 @@
+hydra:
+  run:
+    dir: ${cache_path}/${task}/${model.path}/${dataset}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+verbose: False 
+
+defaults:
+  - model: bloomz-560m
+  - default_calculators
+  - _self_
+
+estimators:
+  - name: Perplexity
+  # - name: MeanTokenEntropy
+  # - name: SemanticEntropy
+  - name: PTrue
+  - name: MaximumSequenceProbability
+
+cache_path: ./workdir/output
+save_path: '${hydra:run.dir}'
+
+task: qa
+instruct: false
+
+dataset: 'LM-polygraph/babi_qa'
+text_column: input
+label_column: output
+train_split: train
+eval_split: test
+n_shot: 0
+few_shot_split: train
+few_shot_prompt: null
+trust_remote_code: false
+size: 10000
+
+max_new_tokens: 3
+load_from_disk: false
+generation_params:
+  generate_until:
+    - "\n"
+subsample_eval_dataset: -1
+batch_size: 1
+
+generation_metrics:
+  - name: "RougeMetric"
+    args:
+      - "rougeL"
+  - name: "BertScoreMetric"
+    args:
+      - "rh"
+
+ignore_exceptions: false
+seed:
+    - 1
+
+
+# Add device_map to model configuration
+model:
+  path: "meta-llama/Llama-2-7b-hf"
+  device_map: "cuda"  # Automatically use available CUDA device, or you can specify 'cuda:0' or 'cuda:1' for specific devices.
+
