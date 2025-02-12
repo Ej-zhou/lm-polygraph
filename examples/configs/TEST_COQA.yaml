@@ -22,6 +22,12 @@ estimators:
   - name: PTrue
   - name: MaximumSequenceProbability
 
+# Calibration metrics:
+PredictionRejectionArea : False
+PredictionRejectionArea_0.5 : False
+ECE : True
+
+
 cache_path: ./workdir/output
 save_path: '${hydra:run.dir}'
 

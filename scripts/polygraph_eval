@@ -133,10 +133,14 @@ def main(args):
 
 
 def get_ue_metrics(args):
-    ue_metrics = [
-        PredictionRejectionArea(),
-        PredictionRejectionArea(max_rejection=0.5),
-    ]
+    ue_metrics = []
+    if getattr(args, "PredictionRejectionArea", True):
+        ue_metrics += [PredictionRejectionArea()]
+    if getattr(args, "PredictionRejectionArea_0.5", True):
+        ue_metrics += [PredictionRejectionArea(max_rejection=0.5)]
+    if getattr(args, "ECE", True):
+        ue_metrics += [ECE()]
+    
     if getattr(args, "use_claim_ue", False):
         ue_metrics += [
             ROCAUC(),
