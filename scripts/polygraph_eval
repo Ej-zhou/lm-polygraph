@@ -106,6 +106,10 @@ def main(args):
         builder_env_stat_calc = BuilderEnvironmentStatCalculator(model=model)
         available_stat_calculators = get_stat_calculator_names(args)
 
+        if args.SAMPLE_FOR_DEBUGGING == 1:
+            # sample only 100 examples for debugging
+            dataset = dataset.select(range(100))
+
         man = UEManager(
             data=dataset,
             model=model,

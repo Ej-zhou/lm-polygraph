@@ -5,7 +5,7 @@ import sys
 import gc
 
 from collections import defaultdict
-from typing import List, Set, Dict, Tuple
+from typing import List, Set, Dict, Tuple, Union
 from tqdm import tqdm
 
 from lm_polygraph.utils.dataset import Dataset
@@ -332,7 +332,7 @@ class UEManager:
 
         return self.estimations
 
-    def __call__(self) -> Dict[Tuple[str, str, str, str], float]:
+    def __call__(self) -> Dict[Tuple[str, str, str, str], Dict[str, Union[List[float], float]]]:
         """
         Runs benchmark and reports metrics results. Saves all useful calculated statistics for further usage.
         The run includes:
@@ -397,8 +397,11 @@ class UEManager:
                         )
                     # TODO: Report how many nans!
                     # This is important to know for a user
+                    # print(estimator_values, generation_metric)
                     ue, metric = _delete_nans(estimator_values, generation_metric)
                     if len(ue) == 0:
+                        print("error: len(ue) == 0!")
+                        # print(ue, metric)
                         self.metrics[e_level, e_name, gen_name, str(ue_metric)] = np.nan
                     else:
                         if len(ue) != len(estimator_values):
@@ -409,12 +412,16 @@ class UEManager:
                             random_score = random_score_all
 
                         ue_metric_val = ue_metric(ue, metric)
-                        self.metrics[e_level, e_name, gen_name, str(ue_metric)] = (
-                            ue_metric_val
-                        )
-                        self.metrics[
-                            e_level, e_name, gen_name, str(ue_metric) + "_normalized"
-                        ] = normalize_metric(ue_metric_val, oracle_score, random_score)
+                        ue_metric_val_normalized = normalize_metric(ue_metric_val, oracle_score, random_score)
+                        self.metrics[e_level, e_name, gen_name, str(ue_metric)] = {
+                            'uncertainty_scores': ue,
+                            'metric_scores': metric,
+                            'calibration_score': ue_metric_val,
+                            'calibration_score_normalized': ue_metric_val_normalized
+                        }
+                        # self.metrics[
+                        #     e_level, e_name, gen_name, str(ue_metric) + "_normalized"
+                        # ] = normalize_metric(ue_metric_val, oracle_score, random_score)
 
         for processor in self.processors:
             processor.on_eval(self.metrics, self.total_bad_estimators)

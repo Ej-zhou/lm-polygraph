@@ -2,7 +2,11 @@ hydra:
   run:
     dir: ${cache_path}/${task}/${model.path}/${dataset}/${now:%Y-%m-%d}/${now:%H-%M-%S}
 
-verbose: False 
+# set to True if want to see every thing
+verbose: True 
+
+# Set to True if testing only one hundered example for instance
+SAMPLE_FOR_DEBUGGING : True
 
 defaults:
   - model: bloomz-560m
@@ -57,7 +61,7 @@ seed:
 
 
 # Add device_map to model configuration
-model:
-  path: "meta-llama/Llama-2-7b-hf"
-  device_map: "cuda:1"  # Automatically use available CUDA device, or you can specify 'cuda:0' or 'cuda:1' for specific devices.
+# model:
+#   path: "meta-llama/Llama-2-7b-hf"
+#   device_map: "cuda:1"  # Automatically use available CUDA device, or you can specify 'cuda:0' or 'cuda:1' for specific devices.
 
