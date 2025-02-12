@@ -140,6 +140,8 @@ def get_ue_metrics(args):
         ue_metrics += [PredictionRejectionArea(max_rejection=0.5)]
     if getattr(args, "ECE", True):
         ue_metrics += [ECE()]
+    if getattr(args, "AUROC", True):
+        ue_metrics += [AUROC()]
     
     if getattr(args, "use_claim_ue", False):
         ue_metrics += [

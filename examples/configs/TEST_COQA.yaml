@@ -6,7 +6,7 @@ hydra:
 verbose: False 
 
 # Set to True if testing only one hundered example for instance
-SAMPLE_FOR_DEBUGGING : True
+SAMPLE_FOR_DEBUGGING : False
 
 defaults:
   - model: bloomz-560m
@@ -23,10 +23,10 @@ estimators:
   - name: MaximumSequenceProbability
 
 # Calibration metrics:
-PredictionRejectionArea : False
+PredictionRejectionArea : True
 PredictionRejectionArea_0.5 : False
 ECE : True
-
+AUROC: True
 
 cache_path: ./workdir/output
 save_path: '${hydra:run.dir}'
@@ -68,6 +68,6 @@ seed:
 
 # Add device_map to model configuration
 # model:
-#   path: "meta-llama/Llama-2-7b-hf"
-#   device_map: "cuda:1"  # Automatically use available CUDA device, or you can specify 'cuda:0' or 'cuda:1' for specific devices.
+path: "meta-llama/Llama-2-7b-hf"
+device_map: "cuda:1"  # Automatically use available CUDA device, or you can specify 'cuda:0' or 'cuda:1' for specific devices.
 
