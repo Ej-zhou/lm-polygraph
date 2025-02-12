@@ -12,6 +12,12 @@ and run the HYDRA file
 HYDRA_CONFIG=/mnt/nas_home/yz926/lm-polygraph/examples/configs/TEST_COQA.yaml  python ./scripts/polygraph_eval       save_path="./workdir/output"  
 ```
 
+on HPC:
+```
+conda activate lmp
+HYDRA_CONFIG=/home/yz926/lm-polygraph/examples/configs/TEST_COQA.yaml  python ./scripts/polygraph_eval       save_path="./workdir/output"  
+```
+
 Using slurm we should do
 
 ```

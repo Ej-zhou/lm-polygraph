@@ -108,7 +108,7 @@ def main(args):
 
         if args.SAMPLE_FOR_DEBUGGING == 1:
             # sample only 100 examples for debugging
-            dataset = dataset.select(range(100))
+            dataset = dataset.select(range(20))
 
         man = UEManager(
             data=dataset,
