@@ -3,10 +3,10 @@ hydra:
     dir: ${cache_path}/${task}/${model.path}/${dataset}/${now:%Y-%m-%d}/${now:%H-%M-%S}
 
 # set to True if want to see every instance's output, score etc., else set to False
-verbose: False 
+verbose: True 
 
 # Set to True if testing only one hundered example for instance
-SAMPLE_FOR_DEBUGGING : False
+SAMPLE_FOR_DEBUGGING : True
 
 defaults:
   - model: bloomz-560m
